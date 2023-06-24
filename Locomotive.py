@@ -87,9 +87,9 @@ while True:
         print(f"SHA-256 Hash:", hash_value2)
 
         if hash_value1 == hash_value2:
-            print("These files have the same hash value")
+            print("Good News! These files have the same hash value")
         else:
-            print("These files do not have the same hash value")
+            print("WARNING!!! These files do not have the same hash value. Integrity may be compromised")
 
     elif choice == "3":
         # Option 3 implementation
