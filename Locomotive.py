@@ -17,7 +17,7 @@ def display_menu():
     print(" ")
     print("1. Calculate SHA-256 hash of a file")
     print("2. Calculate and Compare the SHA-256 hash of two files")
-    print("3. Option 3")
+    print("3. Calculate and Compare the SHA-256 hash of many files")
     print("4. Exit")
     print(" ")
     print("------------------")
@@ -31,9 +31,21 @@ def display_menu():
 def calculate_sha256(file_path):
     sha256_hash = hashlib.sha256()
 
-    with open(file_path, 'rb') as file:
-        for chunk in iter(lambda: file.read(4096), b''):
-            sha256_hash.update(chunk)
+    try:
+        with open(file_path, 'rb') as file:
+            for chunk in iter(lambda: file.read(4096), b''):
+                sha256_hash.update(chunk)
+    except FileNotFoundError:
+        print(f"File not found: {file_path}")
+        return None
+
+    except PermissionError:
+        print(f"Permission denied: {file_path}")
+        return None
+
+    except Exception as e:
+        print(f"Error has occurred while calculating hash: {e}")
+        return None
 
     file_hash = sha256_hash.hexdigest()
     return file_hash
@@ -68,6 +80,10 @@ while True:
 
     # Option 2 - Creates the SHA-256 Hash of File1 and File2 and compares them
     elif choice == "2":
+
+        input("You selected option {}. "
+              "When the popup dialog box appears, select your files. Press enter to continue...".format(choice))
+
         file_path1 = select_file()
         if not file_path1:
             print("No file selected.")
@@ -83,18 +99,61 @@ while True:
             continue
 
         hash_value2 = calculate_sha256(file_path2)
-        print(f"File 2: {file_path1}")
+        print(f"File 2: {file_path2}")
         print(f"SHA-256 Hash:", hash_value2)
 
         if hash_value1 == hash_value2:
-            print("Good News! These files have the same hash value")
+            print("Good News! These files have the same hash value, they must be identical")
         else:
             print("WARNING!!! These files do not have the same hash value. Integrity may be compromised")
 
+    # Option 3 - Creates the SHA-356 Hash of multiple files and compares them
     elif choice == "3":
-        # Option 3 implementation
-        print("Running Option 3")
 
+        input("You selected option {}. "
+              "When the popup dialog box appears, select your files. Press enter to continue...".format(choice))
+
+        file_names = []
+        hashes = []
+        while True:
+            file_path = select_file()
+            if not file_path:
+                print("No file selected.")
+                break
+
+            hash_value = calculate_sha256(file_path)
+            if hash_value:
+                print(f"File: {file_path}")
+                print(f"SHA-256 Hash: {hash_value}")
+                file_names.append(file_path)
+                hashes.append(hash_value)
+
+            another_file = input("Would you like to select another file for comparison? (yes/no): ")
+            if another_file.lower() == 'no':
+                break
+            elif another_file.lower() != 'yes':
+                continue
+
+        if len(hashes) < 2:
+            print("At least two files are needed")
+        else:
+            all_same = all(value == hashes[0] for value in hashes)
+            comparison_status = "Good News! All of these files have the same hash value, they must be identical" if all_same else "WARNING!!! These files do not have the same hash value. Integrity may be compromised"
+
+            print(" ")
+            print(comparison_status)
+
+            for i in range(len(file_names)):
+                print(" ")
+                print("***********************************************************************************************")
+                print(f"File: {file_names[i]}")
+                print(f"SHA-256 Hash: {hashes[i]}")
+                print("***********************************************************************************************")
+                print(" ")
+
+            print(comparison_status)
+
+    # Option 4 -
     elif choice == "4":
         # Exit the program
         print("Exiting...")
