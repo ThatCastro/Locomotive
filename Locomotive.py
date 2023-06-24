@@ -101,4 +101,4 @@ while True:
         break
 
     else:
-        print("Invalid choice. Please select a valid option.")
+        print("Invalid choice selected. Please select a valid option or exit the program.")
