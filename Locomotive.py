@@ -1,6 +1,10 @@
+# Imports the hash function from the python standard library
 import hashlib
+# Imports the os function from the python standard library
 import os
+# Imports TK which is the main windows of a GUI
 from tkinter import Tk
+# Imports askopenfilename which allows the user to select a file from the file browser, and askdirectory which allows the user to select a folder/directory from the file browser.
 from tkinter.filedialog import askopenfilename, askdirectory
 
 
