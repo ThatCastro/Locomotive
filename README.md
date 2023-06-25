@@ -1,3 +1,12 @@
-# Locomotive
-Python Tool to Automate Security Related Functions 
-# NOTE - Tkinter requires a GUI can be shown in your environment to allow for a popup dialog function for selection
+**********
+#Locomotive
+**********
+Python Tool to Automate Security Related Functions
+
+NOTE - Tkinter requires that a GUI can be shown in your environment to allow for a popup dialog function for selection of files/folders
+
+Currently available tools within Locomotive -
+  1. Calculate SHA-256 hash of a file
+  2. Calculate and Compare the SHA-256 hash of two files
+  3. Calculate and Compare the SHA-256 hash of many files
+  4. Calculate and Compare the SHA-256 hash of folders
