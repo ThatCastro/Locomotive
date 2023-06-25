@@ -168,64 +168,67 @@ while True:
         input(" You selected option {} . "
               "When the popup dialog appears, select the folder. Press enter to continue...".format(choice))
 
-        folder_path1 = select_folder()
-        if not folder_path1:
-            print("No folder was selected.")
-            continue
+        try:
+            folder_path1 = select_folder()
+            if not folder_path1:
+                print("No folder was selected.")
+                continue
 
-        folder_path2 = select_folder()
-        if not folder_path2:
-            print("No folder was selected.")
-            continue
+            folder_path2 = select_folder()
+            if not folder_path2:
+                print("No folder was selected.")
+                continue
 
-        files1 = []
-        hashes1 = []
-        for root, _, files in os.walk(folder_path1):
-            for file in files:
-                file_path = os.path.join(root, file)
-                hash_value = calculate_sha256(file_path)
-                if hash_value:
-                    files1.append(file_path)
-                    hashes1.append(hash_value)
+            files1 = []
+            hashes1 = []
+            for root, _, files in os.walk(folder_path1):
+                for file in files:
+                    file_path = os.path.join(root, file)
+                    hash_value = calculate_sha256(file_path)
+                    if hash_value:
+                        files1.append(file_path)
+                        hashes1.append(hash_value)
 
-        files2 = []
-        hashes2 = []
-        for root, _, files in os.walk(folder_path2):
-            for file in files:
-                file_path = os.path.join(root, file)
-                hash_value = calculate_sha256(file_path)
-                if hash_value:
-                    files2.append(file_path)
-                    hashes2.append(hash_value)
+            files2 = []
+            hashes2 = []
+            for root, _, files in os.walk(folder_path2):
+                for file in files:
+                    file_path = os.path.join(root, file)
+                    hash_value = calculate_sha256(file_path)
+                    if hash_value:
+                        files2.append(file_path)
+                        hashes2.append(hash_value)
 
-        if not files1 or not files2:
-            print("No files found in the selected folders.")
-            continue
+            if not files1 or not files2:
+                print("No files found in the selected folders.")
+                continue
 
-        if len(files1) != len(files2):
-            print("The number of files in the two folders is different.")
-            continue
+            if len(files1) != len(files2):
+                print("The number of files in the two folders is different.")
+                continue
 
-        all_same = all
+            all_same = all(value == hashes1[0] for value in hashes1)
+            comparison_status = "Good News! All of these files have the same hash value, they must be identical" if all_same else "WARNING!!! These files do not have the same hash value. Integrity may be compromised"
 
-        comparison_status = "Good News! All of these files have the same hash value, they must be identical" if all_same else "WARNING!!! These files do not have the same hash value. Integrity may be compromised"
-
-        print(" ")
-        print(comparison_status)
-
-        for i in range(len(files1)):
             print(" ")
-            print("***********************************************************************************************")
-            print(f"File 1: {files1[i]}")
-            print(f"SHA-256 Hash 1: {hashes1[i]}")
-            print(f"File 2: {files2[i]}")
-            print(f"SHA-256 Hash 2: {hashes2[i]}")
-            print("***********************************************************************************************")
-            print(" ")
+            print(comparison_status)
+
+            for i in range(len(files1)):
+                print(" ")
+                print("***********************************************************************************************")
+                print(f"File 1: {files1[i]}")
+                print(f"SHA-256 Hash 1: {hashes1[i]}")
+                print(f"File 2: {files2[i]}")
+                print(f"SHA-256 Hash 2: {hashes2[i]}")
+                print("***********************************************************************************************")
+                print(" ")
 
             print(comparison_status)
 
-    #Option 5 -
+        except Exception as e:
+            print(f"Error occurred while processing folders: {e}")
+
+    # Option 5 -
     elif choice == "5":
         print("Exiting...")
         break
