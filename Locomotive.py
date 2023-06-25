@@ -218,7 +218,12 @@ while True:
                 print("The number of files in the two folders is different.")
                 continue
 
-            all_same = all(value == hashes1[0] for value in hashes1)
+            all_same = True
+            for file1, file2 in zip(files1, files2):
+                if calculate_sha256(file1) != calculate_sha256(file2):
+                    all_same = False
+                    break
+
             comparison_status = "Good News! All of these files have the same hash value, they must be identical" if all_same else "WARNING!!! These files do not have the same hash value. Integrity may be compromised"
 
             print(" ")
@@ -234,10 +239,12 @@ while True:
                 print("***********************************************************************************************")
                 print(" ")
 
+            print(" ")
             print(comparison_status)
 
         except Exception as e:
             print(f"Error occurred while processing folders: {e}")
+
 
     # Option 5 - Exits the program
     elif choice == "5":
