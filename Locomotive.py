@@ -6,6 +6,7 @@ from tkinter.filedialog import askopenfilename, askdirectory
 
 # Displays welcome message and then menu options for user input
 def display_menu():
+    # Displays the welcome message, the description of this tool, and the options
     print(" ")
     print(
         "*************************************************************************************************************")
@@ -25,6 +26,7 @@ def display_menu():
     print("------------------")
     print(" ")
 
+    # Asks for the user to select an option from the above list
     user_choice = input("Select an option: ")
     return user_choice
 
@@ -34,21 +36,26 @@ def calculate_sha256(file_path):
     sha256_hash = hashlib.sha256()
 
     try:
+        # This opens the file in read binary and processes it in 4096 chunks
         with open(file_path, 'rb') as file:
             for chunk in iter(lambda: file.read(4096), b''):
                 sha256_hash.update(chunk)
     except FileNotFoundError:
+        # Error Handling for when a file is not found
         print(f"File not found: {file_path}")
         return None
 
     except PermissionError:
+        # Error Handling for when permissions are denied
         print(f"Permission denied: {file_path}")
         return None
 
     except Exception as e:
+        # Error Handling for when general errors may occur
         print(f"Error has occurred while calculating hash: {e}")
         return None
 
+    # Changes the file hash to a hexadecimal format
     file_hash = sha256_hash.hexdigest()
     return file_hash
 
@@ -69,7 +76,7 @@ def select_folder():
     return folder_path
 
 
-# The program loop for choices
+# Program loop for the choices
 while True:
     choice = display_menu()
 
@@ -162,7 +169,7 @@ while True:
 
             print(comparison_status)
 
-    # Option 4 -
+    # Option 4 - Calculates and compares the hashes for the selected folders
     elif choice == "4":
         print(" ")
         input(" You selected option {} . "
@@ -228,9 +235,11 @@ while True:
         except Exception as e:
             print(f"Error occurred while processing folders: {e}")
 
-    # Option 5 -
+    # Option 5 - Exits the program
     elif choice == "5":
         print("Exiting...")
         break
+
+    # If anything other than the 5 options are selected, returns this message.
     else:
         print("Invalid choice selected. Please select a valid option or exit the program.")
