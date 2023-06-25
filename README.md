@@ -8,7 +8,7 @@
 ***
 
 ## Locomotive is a python tool that can be used to automate security related functions. To start with, locomotive offers 4 tools that can be used to verify the integrity of desired file(s)/folder(s). 
-*NOTE - Tkinter requires that a GUI can be shown in your environment to allow for a popup dialog function for selection of files/folders*
+*NOTE - Locomotive uses an imported function known as Tkinter. Tkinter will require that a GUI can be shown in your environment to allow for a popup dialog function that will be used for the selection of files/folders*
 
 ***
 ### The tools that are currently available within locomotive are the following:
